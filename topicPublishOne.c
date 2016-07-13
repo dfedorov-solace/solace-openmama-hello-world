@@ -29,7 +29,7 @@ int main(int argc, const char** argv)
     mamaBridge bridge = NULL;
     // load Solace middleware bridge and open it
     if (((status = mama_loadBridge(&bridge, "solace")) == MAMA_STATUS_OK) &&
-        ((status = mama_open()) == MAMA_STATUS_OK))
+        ((status = mama_openWithProperties(".","mama.properties")) == MAMA_STATUS_OK))
     {
         // create transport
         mamaTransport transport = NULL;
