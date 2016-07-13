@@ -31,12 +31,20 @@ int main(int argc, const char** argv)
     if (((status = mama_loadBridge(&bridge, "solace")) == MAMA_STATUS_OK) &&
         ((status = mama_open()) == MAMA_STATUS_OK))
     {
-        printf("Closing Solace middleware bridge.\n");
-        mama_close();
-        // normal exit
-        exit(0);
+        // create transport
+        mamaTransport transport = NULL;
+        if (((status = mamaTransport_allocate(&transport)) == MAMA_STATUS_OK) &&
+            ((status = mamaTransport_create(transport, "vmr", bridge)) == MAMA_STATUS_OK))
+        {
+            printf("Closing Solace middleware bridge.\n");
+            mamaTransport_destroy(transport);
+            mama_close();
+            // normal exit
+            exit(0);
+        }
     }
     printf("OpenMAMA error: %s\n", mamaStatus_stringForStatus(status));
     exit(status);
 }
+
 
