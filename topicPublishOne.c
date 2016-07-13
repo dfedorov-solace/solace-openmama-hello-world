@@ -31,20 +31,38 @@ int main(int argc, const char** argv)
     if (((status = mama_loadBridge(&bridge, "solace")) == MAMA_STATUS_OK) &&
         ((status = mama_openWithProperties(".","mama.properties")) == MAMA_STATUS_OK))
     {
-        // create transport
+        // 1. create transport and 2. create publisher
         mamaTransport transport = NULL;
+        mamaPublisher publisher = NULL;
         if (((status = mamaTransport_allocate(&transport)) == MAMA_STATUS_OK) &&
-            ((status = mamaTransport_create(transport, "vmr", bridge)) == MAMA_STATUS_OK))
+            ((status = mamaTransport_create(transport, "vmr", bridge)) == MAMA_STATUS_OK) &&
+            ((status = mamaPublisher_create(&publisher, transport,
+                                            "tutorial.topic", NULL, NULL)) == MAMA_STATUS_OK))
         {
-            printf("Closing Solace middleware bridge.\n");
-            mamaTransport_destroy(transport);
-            mama_close();
-            // normal exit
-            exit(0);
+            // 3. create message and add a string field to it
+            mamaMsg message = NULL;
+            if (((status = mamaMsg_create(&message)) == MAMA_STATUS_OK) &&
+                ((status = mamaMsg_addString(message, "MyGreetingField", 99,
+                                             "Hello World")) == MAMA_STATUS_OK))
+            {
+                // 4. send the message
+                if ((status = mamaPublisher_send(publisher, message)) == MAMA_STATUS_OK)
+                {
+                    // notice that "destroy" calls are in the opposite order of "create" calls
+                    mamaMsg_destroy(message);
+                    printf("Message published, closing Solace middleware bridge.\n");
+                    mamaPublisher_destroy(publisher);
+                    mamaTransport_destroy(transport);
+                    mama_close();
+                    // normal exit
+                    exit(0);
+                }
+            }
         }
     }
     printf("OpenMAMA error: %s\n", mamaStatus_stringForStatus(status));
     exit(status);
 }
+
 
 

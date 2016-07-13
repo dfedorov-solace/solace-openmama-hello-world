@@ -19,7 +19,7 @@ To check out the project and build from source, do the following:
 
     git clone git://github.com/dfedorov-solace/solace-openmama-hello-world
     cd solace-openmama-hello-world
-    
+
 ## Running the application
 
     ./topicPublishOne
