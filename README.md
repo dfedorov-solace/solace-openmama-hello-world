@@ -1,9 +1,10 @@
 # Solace OpenMAMA "Hello World"
+
 ## Simple application for OpenMAMA with Solace middleware bridge
 
 This simple application will show you how to use __OpenMAMA__ to publish a message to a __Solace message router__.
 
-To download and install __OpenMAMA__ see its [Quick Start Guide](http://www.openmama.org/content/quick-start-guide).
+To download and install __OpenMAMA__ see its [Quick Start Guide](http://www.openmama.org/content/quick-start-guide) and [these instructions](_docs/install.md).
 
 There are two ways you can get hold of the __Solace message router__:
 - If your company has Solace message routers deployed, contact your middleware team to obtain the host name or IP address of a Solace message router to test against, a username and password to access it, and a VPN in which you can produce and consume messages.
@@ -11,25 +12,47 @@ There are two ways you can get hold of the __Solace message router__:
 
 ## Content
 
-This repository contains code and [matching tutorial](https://dfedorov-solace.github.io/solace-openmama-hello-world/).
+This repository contains [code](topicPublishOne.c), sample [configuration](mama.properties) and [matching tutorial](_docs/hello-world.md).
 
 ## Checking out and Building
 
-To check out the project and build from source, do the following:
+To check out the project and build it, do the following:
 
-    git clone git://github.com/dfedorov-solace/solace-openmama-hello-world
-    cd solace-openmama-hello-world
+```
+git clone git://github.com/dfedorov-solace/solace-openmama-hello-world
+cd solace-openmama-hello-world
+```
+
+To build on **Linux**, assuming OpenMAMA installed into `/opt/openmama`:
+```
+$ gcc -o topicPublishOne topicPublishOne.c -I/opt/openmama/include -L/opt/openmama/lib -lmama
+```
+
+To build on **Windows**, assuming OpenMAMA is at `<openmama>` directory:
+```
+$ cl topicPublishOne.c /I<openmama>\mama\c_cpp\src\c /I<openmama>\common\c_cpp\src\c\windows -I<openmama>\common\c_cpp\src\c <openmama>\Debug\libmamacmdd.lib
+```
 
 ## Running the application
 
-    ./topicPublishOne
+On **Linux**:
+
+```
+$ ./topicPublishOne
+```
+
+On **Windows**:
+
+```
+$ topicPublishOne.exe
+```
 
 ## Resources
 
 For more information about OpenMAMA:
 
 - The OpenMAMA website at: [http://www.openmama.org/](http://www.openmama.org/).
-- The OpenMAMA code reporsitory on GitHub [https://github.com/OpenMAMA/OpenMAMA](https://github.com/OpenMAMA/OpenMAMA).
+- The OpenMAMA code repository on GitHub [https://github.com/OpenMAMA/OpenMAMA](https://github.com/OpenMAMA/OpenMAMA).
 - Chat with OpenMAMA developers and users at [Gitter OpenMAMA room](https://gitter.im/OpenMAMA/OpenMAMA).
 
 For more information about Solace technology:

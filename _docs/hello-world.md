@@ -22,6 +22,8 @@ This tutorial assumes the following:
 
 One simple way to get access to a Solace message router is to start a Solace VMR load [as outlined here](http://dev.solacesystems.com/docs/get-started/setting-up-solace-vmr_vmware/). By default the Solace VMR will run with the “default” message VPN configured and ready for messaging. Going forward, this tutorial assumes that you are using the Solace VMR. If you are using a different Solace message router configuration, adapt the instructions to match your configuration.
 
+Simplified installation instructions for OpenMAMA with Solace middleware bridge are available [as a part of this tutorial](index.md).
+
 ---
 
 ## Goals
@@ -47,7 +49,7 @@ Client Password | String | The optional client password. For the Solace VMR defa
 
 ## Trying it yourself
 
-This tutorial is available in [GitHub](https://github.com/dfedorov-solace/solace-openmama-hello-world) along with the others.
+This tutorial is available in [GitHub](https://github.com/dfedorov-solace/solace-openmama-hello-world).
 
 Clone the GitHub repository containing the tutorial.
 
@@ -57,6 +59,18 @@ $ cd solace-openmama-hello-world
 ```
 
 Building instructions for both **Linux** (with `GCC`) and **Windows** (with `cl`) are provided in this tutorial at the of the [Initialize](#initialize) section.
+
+To run the application on **Linux**:
+
+```
+$ ./topicPublishOne
+```
+
+To run the application on **Windows**:
+
+```
+$ topicPublishOne.exe
+```
 
 ---
 
@@ -97,6 +111,8 @@ mama_close();
 ```
 
 This is already a program that can be compiled and executed, let's add to it some console messages that would help us to watch it running, and some rudimentary error handling.
+
+[*source*](https://github.com/dfedorov-solace/solace-openmama-hello-world/blob/328221ea38af106ae987e6af1c6d5d18536dc2f5/topicPublishOne.c)
 
 ```c
 #include <stdio.h>
@@ -191,6 +207,8 @@ mamaTransport_destroy(transport);
 
 This is how our program looks now, let's compile and run it.
 
+[*source*](https://github.com/dfedorov-solace/solace-openmama-hello-world/blob/1fd2e2050b1393c2843d670968e8f43721c3369d/topicPublishOne.c)
+
 ```c
 #include <stdio.h>
 #include <mama/mama.h>
@@ -238,6 +256,8 @@ Configuring transport for the Solace middleware bridge means creating and editin
 
 Create a text file named **mama.properties** and add to it a minimum set of properties for the **Solace message router**:
 
+[*source*](https://github.com/dfedorov-solace/solace-openmama-hello-world/blob/master/mama.properties)
+
 ```
 mama.solace.transport.vmr.session_host=192.168.1.75
 mama.solace.transport.vmr.session_username=default
@@ -256,6 +276,8 @@ mama_openWithProperties(".","mama.properties");
 ```
 
 This is how our program looks now, let's compile and run it.
+
+[*source*](https://github.com/dfedorov-solace/solace-openmama-hello-world/blob/831b7f3c20cba6c6a5e14abe10b9036a9a0865e7/topicPublishOne.c)
 
 ```c
 #include <stdio.h>
@@ -331,6 +353,8 @@ mamaMsg_destroy(message);
 ```
 
 This is the final look of our program, let's compile and run it.
+
+[*source*](https://github.com/dfedorov-solace/solace-openmama-hello-world/blob/master/topicPublishOne.c)
 
 ```c
 #include <stdio.h>
