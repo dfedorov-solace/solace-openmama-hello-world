@@ -22,7 +22,7 @@ This tutorial assumes the following:
 
 One simple way to get access to a Solace message router is to start a Solace VMR load [as outlined here](http://dev.solacesystems.com/docs/get-started/setting-up-solace-vmr_vmware/). By default the Solace VMR will run with the “default” message VPN configured and ready for messaging. Going forward, this tutorial assumes that you are using the Solace VMR. If you are using a different Solace message router configuration, adapt the instructions to match your configuration.
 
-Simplified installation instructions for OpenMAMA with Solace middleware bridge are available [as a part of this tutorial](index.md).
+Simplified installation instructions for OpenMAMA with Solace middleware bridge [are available](install.md).
 
 ---
 
@@ -34,7 +34,7 @@ This tutorial will show you how to publish a message with one string field to a 
 
 ---
 
-## Solace message router properties
+## Solace Message Router Properties
 
 In order to send or receive messages to a Solace message router, you need to know a few details of how to connect to the Solace message router. Specifically you need to know the following:
 
@@ -47,7 +47,7 @@ Client Password | String | The optional client password. For the Solace VMR defa
 
 ---
 
-## Trying it yourself
+## Trying It Yourself
 
 This tutorial is available in [GitHub](https://github.com/dfedorov-solace/solace-openmama-hello-world).
 
@@ -81,7 +81,7 @@ In our first program we’re going to publish one *"Hello World"* message to a s
 The program will consist of two major parts:
 
 1. [Initialize](#initialize) Solace middleware bridge
-2. [Publish message](#publish-message)
+2. [Publish Message](#publish-message)
 
 ### Initialize
 
@@ -167,7 +167,7 @@ Closing Solace middleware bridge.
 
 But in fact OpenMAMA has successfully initialized with the **Solace middleware bridge** and is ready to publish a message.
 
-### Publish message
+### Publish Message
 
 You have definitely noticed the `“Failed to open properties file”` log message (if it appears twice, ignore one of them, it is a well known OpenMAMA [pickle](https://github.com/OpenMAMA/OpenMAMA/issues/37)).
 
@@ -341,7 +341,7 @@ mamaMsg_create(&message);
 mamaMsg_addString(message, "MyGreetingField", 99, "Hello World");
 ```
 
-Notice that our field has a name (`"MyGreetingField"`) and an identifier (`99`). Both are of arbitrary values in this tutorial, but if your program publishes market data, their values need to be assigned according to the **data dictionary**.
+Notice that our field has a *name* (`"MyGreetingField"`) and a *field identifier* a.k.a. *FID* (`99`). Both are of arbitrary values in this tutorial, but if your program publishes market data, their values need to be assigned according to the **data dictionary**.
 
 #### Send message
 

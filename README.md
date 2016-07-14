@@ -1,6 +1,8 @@
 # Solace OpenMAMA "Hello World"
 
-## Simple application for OpenMAMA with Solace middleware bridge
+---
+
+## Simple publish message application using OpenMAMA with Solace middleware bridge
 
 This simple application will show you how to use __OpenMAMA__ to publish a message to a __Solace message router__.
 
