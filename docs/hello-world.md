@@ -56,7 +56,7 @@ $ git clone git://github.com/dfedorov-solace/solace-openmama-hello-world.git
 $ cd solace-openmama-hello-world
 ```
 
-Building instructions for both **Linux** (with `GCC`) and **Windows** (with `cl`) are provided in this tutorial at the of of the [Initialize](#initialize) chapter.
+Building instructions for both **Linux** (with `GCC`) and **Windows** (with `cl`) are provided in this tutorial at the of the [Initialize](#initialize) section.
 
 ---
 
@@ -71,13 +71,13 @@ The program will consist of two major parts:
 
 ### Initialize
 
-Any OpenMAMA program begins from initializing that consists of loading a bridge and opening it, in this particular order:
+Any OpenMAMA program begins with initialization that consists of loading a bridge and opening it, in this particular order:
 * load
 * open
 
 This is how it is done.
 
-Begin from declaring the bridge pointer:
+Begin by declaring the bridge pointer:
 
 ```c
 mamaBridge bridge = NULL;
@@ -96,7 +96,7 @@ Opening of the bridge must have a corresponding closing `mama_close()` call:
 mama_close();
 ```
 
-This is already a program that can be compiled and executed, let's add to it some console messages that would help us to watch it running, and a rudimentary error handling.
+This is already a program that can be compiled and executed, let's add to it some console messages that would help us to watch it running, and some rudimentary error handling.
 
 ```c
 #include <stdio.h>
@@ -126,7 +126,7 @@ At this point our program needs to be linked with `libmama` (`libmamac` or `libm
 
 On **Linux**, assuming OpenMAMA installed into `/opt/openmama`:
 ```
-$ gcc -o topiPublishOne topiPublishOne.c -I/opt/openmama/include -L/opt/openmama/lib -lmama
+$ gcc -o topicPublishOne topicPublishOne.c -I/opt/openmama/include -L/opt/openmama/lib -lmama
 ```
 
 On **Windows**, assuming OpenMAMA is at `<openmama>` directory:
@@ -134,7 +134,7 @@ On **Windows**, assuming OpenMAMA is at `<openmama>` directory:
 $ cl topicPublishOne.c /I<openmama>\mama\c_cpp\src\c /I<openmama>\common\c_cpp\src\c\windows -I<openmama>\common\c_cpp\src\c <openmama>\Debug\libmamacmdd.lib
 ```
 
-When we run this program, it seems like nothing happens:
+When we run this program, it seems like nothing happened:
 
 ```
 $ ./topicPublishOne
@@ -234,7 +234,7 @@ OpenMAMA error: STATUS_PLATFORM
 
 This means we cannot go on without configuring a transport for the Solace middleware bridge, and that transport is the **Solace message router**.
 
-Configuring transport for the Solace middleware bridge means creating and editing a configuration file. The recommended name for this file is **mama.properties** and its location needs to be let known to the bridge as it is described below.
+Configuring transport for the Solace middleware bridge means creating and editing a configuration file. The recommended name for this file is **mama.properties** and its location needs to be known to the bridge.
 
 Create a text file named **mama.properties** and add to it a minimum set of properties for the **Solace message router**:
 
@@ -294,7 +294,7 @@ Now our program runs without any errors and it successfully connects to the **So
 
 The only thing we want to happen with this program is to publish the "Hello World" message and for that we need to create a publisher.
 
-Publisher is created for a specific topic (named `“tutorial.topic”` in this tutorial) and the already created transport:
+A publisher is created for a specific topic (named `“tutorial.topic”` in this tutorial) and the already created transport:
 
 ```c
 mamaPublisher publisher = NULL;
@@ -307,7 +307,7 @@ It needs to have a corresponding `destroy` call:
 mamaPublisher_destroy(publisher);
 ```
 
-Publisher is ready, let's create a message we're going to publish.
+The publisher is ready, let's create the message we're going to publish.
 
 #### Create message
 
@@ -393,10 +393,10 @@ Please see the Licensing file for details
 Message published, closing Solace middleware bridge.
 ```
 
-You can see the message published by listening for it on the **Solace message router** with the `sdkperf_c` utility:
+You can see the message published by listening for it on the **Solace message router** with the [`sdkperf_c` utility](http://dev.solacesystems.com/docs/sdkperf-user-guide/):
 
 ```
-$ ./sdkperf_c -cip=192.168.1.23 -cu=default@default -stl="#P2P/>,>" -md
+$ ./sdkperf_c -cip=192.168.1.75 -cu=default@default -stl=">" -md
 
 CPU mask currently set to: 0x0003.  To modify use linux cmd: taskset
 CPU Speed calculated (Hz): 2980249271
