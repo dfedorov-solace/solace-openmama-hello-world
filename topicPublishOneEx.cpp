@@ -48,6 +48,10 @@ class Bridge
         const mamaBridge getMamaBridge() const { return bridge; }
     private:
         Bridge();
+        Bridge(const Bridge&);
+        Bridge& operator=(const Bridge&);
+        Bridge(const Bridge&&);
+        Bridge& operator=(const Bridge&&);
     private:
         mamaBridge bridge;
 
@@ -64,6 +68,10 @@ class Transport
         const Wombat::MamaTransport& getMamaTransport() const { return transport; }
     private:
         Transport();
+        Transport(const Transport&);
+        Transport& operator=(const Transport&);
+        Transport(const Transport&&);
+        Transport& operator=(const Transport&&);
     private:
         Wombat::MamaTransport transport;
 };
@@ -90,6 +98,9 @@ class Message
         }
         const Wombat::MamaMsg & getMamaMsg() const { return message; }
     private:
+        Message(const Message&&);
+        Message& operator=(const Message&&);
+    private:
         Wombat::MamaMsg message;
 };
 
@@ -110,9 +121,14 @@ class Publisher
         }
     private:
         Publisher();
+        Publisher(const Publisher&);
+        Publisher& operator=(const Publisher&);
+        Publisher(const Publisher&&);
+        Publisher& operator=(const Publisher&&);
     private:
         Wombat::MamaPublisher publisher;
 };
+
 
 int main(int argc, const char** argv)
 {
