@@ -14,7 +14,7 @@
 
 /*
  * Solace messaging with OpenMAMA
- * PublishSubscribe tutorial - Topic Publisher
+ * PublishSubscribe tutorial - Topic TopicPublisher
  * Demonstrates publishing one direct message to a topic
  */
 
@@ -23,20 +23,29 @@
 #include <mama/mamacpp.h>
 
 
-class Bridge
+class TopicPublisher
 {
     public:
-        explicit Bridge(const std::string& bridgeName, 
+        explicit TopicPublisher(const std::string& topicName,
+                const std::string& transportName = "vmr",
+                const std::string& bridgeName = "solace",
                 const std::string& propertyFilenamePath = ".",
                 const std::string& propertyFilename = "mama.properties")
+            : transport(new Wombat::MamaTransport())
         {
             bridge = Wombat::Mama::loadBridge(bridgeName.c_str());
             Wombat::Mama::open(propertyFilenamePath.c_str(), propertyFilename.c_str());
+            transport->create(transportName.c_str(), bridge);
+            publisher.create(
+                    const_cast<Wombat::MamaTransport*>(transport),
+                    topicName.c_str());
         }
-        ~Bridge()
+        ~TopicPublisher()
         {
             try
             {
+                publisher.destroy();
+                delete transport;
                 Wombat::Mama::close();
             }
             catch (const Wombat::MamaStatus& ex)
@@ -45,89 +54,27 @@ class Bridge
             }
             catch (...) { /* destructor swallow */ }
         }
-        const mamaBridge getMamaBridge() const { return bridge; }
+        TopicPublisher& operator<<(const std::string& rvalue)
+        {
+            Wombat::MamaMsg message;
+            message.create();
+            message.addString("StringField", 99, rvalue.c_str());
+            publisher.send(const_cast<Wombat::MamaMsg*>(&message));
+            return *this;
+        }
     private:
-        Bridge();
-        Bridge(const Bridge&);
-        Bridge& operator=(const Bridge&);
-        Bridge(const Bridge&&);
-        Bridge& operator=(const Bridge&&);
+        TopicPublisher();
+        TopicPublisher(const TopicPublisher&);
+        TopicPublisher& operator=(const TopicPublisher&);
+        TopicPublisher(const TopicPublisher&&);
+        TopicPublisher& operator=(const TopicPublisher&&);
+
     private:
         mamaBridge bridge;
-
-};
-
-
-class Transport
-{
-    public:
-        explicit Transport(const std::string& transportName, const Bridge& bridge)
-        {
-            transport.create(transportName.c_str(), bridge.getMamaBridge());
-        }
-        const Wombat::MamaTransport& getMamaTransport() const { return transport; }
-    private:
-        Transport();
-        Transport(const Transport&);
-        Transport& operator=(const Transport&);
-        Transport(const Transport&&);
-        Transport& operator=(const Transport&&);
-    private:
-        Wombat::MamaTransport transport;
-};
-
-
-class Message
-{
-    public:
-        Message()
-        {
-            message.create();
-        }
-        Message(const Message& right)
-            : message(right.getMamaMsg()) {}
-        Message& operator=(const Message& rvalue)
-        {
-            message.copy(rvalue.getMamaMsg());
-            return *this;
-        }
-        Message& field(const std::string& fieldName, int fieldId, const std::string& value)
-        {   
-            message.addString(fieldName.c_str(), fieldId, value.c_str());
-            return *this;
-        }
-        const Wombat::MamaMsg & getMamaMsg() const { return message; }
-    private:
-        Message(const Message&&);
-        Message& operator=(const Message&&);
-    private:
-        Wombat::MamaMsg message;
-};
-
-
-class Publisher
-{
-    public:
-        explicit Publisher(const std::string& topicName, const Transport& transport)
-        {
-            publisher.create(
-                    const_cast<Wombat::MamaTransport*>(&transport.getMamaTransport()),
-                    topicName.c_str());
-        }
-        Publisher& operator<<(const Message& rvalue)
-        {
-            publisher.send(const_cast<Wombat::MamaMsg*>(&rvalue.getMamaMsg()));
-            return *this;
-        }
-    private:
-        Publisher();
-        Publisher(const Publisher&);
-        Publisher& operator=(const Publisher&);
-        Publisher(const Publisher&&);
-        Publisher& operator=(const Publisher&&);
-    private:
+        Wombat::MamaTransport* transport;
         Wombat::MamaPublisher publisher;
 };
+
 
 
 int main(int argc, const char** argv)
@@ -137,10 +84,8 @@ int main(int argc, const char** argv)
         "Publishing one message with OpenMAMA." << std::endl;
     try
     {
-        Bridge bridge("solace");
-        Transport transport("vmr", bridge);
-        Publisher publisher("tutorial.topic", transport);
-        publisher << Message().field("MyGreetingField", 99, "Hello World");
+        TopicPublisher topicPublisher("tutorial.topic");
+        topicPublisher << "Hello World";
     }
     catch (const Wombat::MamaStatus & ex)
     {
