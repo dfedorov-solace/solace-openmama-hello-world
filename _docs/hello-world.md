@@ -16,7 +16,7 @@
 This tutorial assumes the following:
 
 *   You are familiar with OpenMAMA [core concepts](https://sftp.solacesystems.com/Portal_Docs/OpenMAMA_User_Guide/01_Introduction.html).
-    *   If not, see [this guide](http://www.openmama.org/content/quick-start-guide)
+    *   If not, see [this guide](http://www.openmama.org/content/quick-start-guide).
 *   You are familiar with Solace [core concepts](http://dev.solacesystems.com/docs/core-concepts/).
 *   You have access to a properly installed OpenMAMA [release](https://github.com/OpenMAMA/OpenMAMA/releases).
     *   Solace middleware bridge with its dependencies is also installed
@@ -36,7 +36,7 @@ This tutorial will show you how to publish a message with one string field to a 
     
 ## Installation
 
-Installation instructions for OpenMAMA can be on [OpenMAMA Wiki](http://www.openmama.org/content/quick-start-guide#main).
+Installation instructions for OpenMAMA can be found on [OpenMAMA Wiki](http://www.openmama.org/content/quick-start-guide#main).
 
 Simplified installation instructions for OpenMAMA with Solace middleware bridge [are available](install.md).
 
