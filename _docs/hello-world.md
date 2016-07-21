@@ -289,6 +289,8 @@ mama.solace.transport.vmr.allow_recover_gaps=false
 
 Notice how `solace` and `vmr` property token names are the same as in `mama_loadBridge(&bridge, "solace")` and `mamaTransport_create(transport, "vmr", bridge)` calls.
 
+##### Properties File
+
 Each property corresponds to one of the [Solace Message Router Properties](#solace-message-router-properties):
 
 - `mama.solace.transport.vmr.session_host` is `Host` and usually has a value of the IP address of the **Solace message router**.
